@@ -109,17 +109,59 @@ public class AnalizadorAccesosAServidor
                 if(listadoDeUrlYSusAccesos.get(urlActual) > numeroDeAccesosAUnaUrl){
                     urlConMasAccesos = urlActual;
                     numeroDeAccesosAUnaUrl =  listadoDeUrlYSusAccesos.get(urlActual);
-
                 }
             }
         }
-
+        else{
+            System.out.println("No Mames!! guey,ocurrio algun error al leer el archivo.");
+        }
         return urlConMasAccesos;
     }
 
+    /**
+     * Metodo que devuelve la ip con  el mayor número de accesos exitosos al servidor. 
+     * 
+     * @return devuelve un string con la ip que tiene mayor número de accesos exitosos al servidor o null si no se ha ejecutado antes el metodo anterior
+     */
     public String clienteConMasAccesosExitosos()
     {
-        return "";
+        String direccionIpFumataBlanca = null;
+        ArrayList<Acceso> accesosFumataBlanca = new ArrayList<Acceso>();
+        HashMap<String, Integer> listaDeIpsConFumataBlanca = new HashMap<>();
+        int cantidadDeVecesQueMasSeRepiteLaIp = 0;
+        int ipAComparar = 0;
+        for(Acceso conexionesBuenas : accesos){
+            // los codigos de error menores de 400 en los accesos de esa ip al servidor son accesos exitosos
+            if(conexionesBuenas.getCodigoDeError() < 400){
+                accesosFumataBlanca.add(conexionesBuenas); 
+            }
+        }
+        if (accesos.size() > 0){
+            for(Acceso conexionesBuenas : accesosFumataBlanca){
+                String ipActual = conexionesBuenas.getIp();
+
+                if(listaDeIpsConFumataBlanca.get(ipActual) == null){
+                    listaDeIpsConFumataBlanca.put(ipActual, 1);
+                }
+                else{
+                    listaDeIpsConFumataBlanca.replace(ipActual, listaDeIpsConFumataBlanca.get(ipActual) + 1);
+                }
+                //lo primero que hacemos es separar la ip por sus puntos y quedarlos con el cuarto octeto
+                int ipNueva = Integer.parseInt(ipActual.split("\\.")[3]);
+                //contador del numero de conexiones exitosas
+                int numeroDeConexionesExitosas = listaDeIpsConFumataBlanca.get(ipActual);
+                if(numeroDeConexionesExitosas > cantidadDeVecesQueMasSeRepiteLaIp || (numeroDeConexionesExitosas == cantidadDeVecesQueMasSeRepiteLaIp && ipNueva > ipAComparar)){
+                    cantidadDeVecesQueMasSeRepiteLaIp = numeroDeConexionesExitosas;
+                    ipAComparar = ipNueva;
+                    direccionIpFumataBlanca = ipActual;
+                }
+            }
+        }
+        else{
+            System.out.println("No Mames!! guey,ocurrio algun error al leer el archivo.");
+        }
+
+        return direccionIpFumataBlanca;
     }
 
 }

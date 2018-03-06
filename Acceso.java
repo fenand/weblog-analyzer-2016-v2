@@ -104,4 +104,22 @@ public class Acceso
         return url;
     }
 
+    /**
+     * Metodo para devolver el codigoDeError
+     * 
+     * @return un int con el codigoDeError
+     */
+    public int getCodigoDeError()
+    {
+        return codigoDeError;
+    }
+    /**
+     * Metodo para devolver la ip
+     * 
+     * @return un String con la ip
+     */
+    public String getIp()
+    {
+        return ip;
+    }
 }
