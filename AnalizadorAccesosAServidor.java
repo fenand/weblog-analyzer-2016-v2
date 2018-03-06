@@ -1,18 +1,33 @@
 import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
-
+/**
+ * Clase que se encargada de analizar el archivo log que esta añadido desde un archivo externo
+ * a la clase.  
+ * 
+ * @author (Fernando) 
+ * @version (Version 1.0)
+ */
 public class AnalizadorAccesosAServidor
 {
     private ArrayList<Acceso> accesos;
     
-    
+    /**
+     * Constructor de la clase AnalizadorAccesosAServidor
+     */
     public AnalizadorAccesosAServidor() 
     {
         accesos = new ArrayList<>();
     }
     
-    
+    /**
+     * 
+     * Método llamado analizarArchivoDeLog que requiere de un parámetro de tipo String que informe del nombre del archivo de log a leer.  
+     * Este método debe leer el archivo de log y analizarlo para que luego podamos invocar el siguiente método.
+     * 
+     * @param te pide un string con el nombre del archivo mas .log
+     * 
+     */
     public void analizarArchivoDeLog(String archivo)
     {
         accesos.clear();
@@ -21,13 +36,8 @@ public class AnalizadorAccesosAServidor
             Scanner sc = new Scanner(archivoALeer);
             while (sc.hasNextLine()) {
                 String lineaLeida = sc.nextLine();               
-                String[] elementosLinea = lineaLeida.split(" ");
-                Acceso accesoActual = new Acceso(Integer.parseInt(elementosLinea[0]), 
-                                                 Integer.parseInt(elementosLinea[1]), 
-                                                 Integer.parseInt(elementosLinea[2]),
-                                                 Integer.parseInt(elementosLinea[3]), 
-                                                 Integer.parseInt(elementosLinea[4]));               
                 
+                Acceso accesoActual = new Acceso(lineaLeida); 
                 accesos.add(accesoActual);
             }
             sc.close();
@@ -37,7 +47,14 @@ public class AnalizadorAccesosAServidor
         }
     }
     
-    
+    /**
+     * Metodo Tener un método llamado obtenerHoraMasAccesos que, a partir de los procesos hechos por el método anterior, 
+     * encuentra la hora (solo la hora, sin tener en cuenta los minutos) a la que se producen más accesos al servidor. 
+     * El método muestra por pantalla dicha hora y la devuelve. Si hay empate, devuelve la hora más alta. 
+     * En caso de que se invoque este método sin haberse invocado el anterior el método informa por pantalla de que no tiene datos, devuelve -1 y no hace nada más.
+     * 
+     * @return devuelve un int con la fecha con mas accesos o - 1 si no tiene datos
+     */
     public int obtenerHoraMasAccesos() 
     {
         int valorADevolver = -1;
