@@ -11,6 +11,9 @@ public class Acceso
     private int dia;
     private int hora;
     private int minutos;
+    private String ip;
+    private String url;
+    private int codigoDeError;
 
     /**
      * Constructor de la clase acceso
@@ -19,15 +22,25 @@ public class Acceso
      */
     public Acceso(String fecha)
     {
-        String[] arrayDeFechas = fecha.split(" ");
-      
-        ano = Integer.parseInt(arrayDeFechas[0]);
-        mes = Integer.parseInt(arrayDeFechas[1]);
-        dia = Integer.parseInt(arrayDeFechas[2]);
-        hora = Integer.parseInt(arrayDeFechas[3]);
-        minutos = Integer.parseInt(arrayDeFechas[4]);
+        String[] arrayDeDatos = fecha.split(" ");
         
-      
+        //"91.244.73.61 [2016 01 01 10 56] instituto/normativa.html 403"
+        
+        //posicion 0 del arrayconfechas 
+        ip = arrayDeDatos[0];
+        
+        //se inicializan los atributos  con los datos de la fecha que estan en la posicion 1 del array        
+        ano = Integer.parseInt(arrayDeDatos[1].substring(1,arrayDeDatos[1].length()));
+        mes = Integer.parseInt(arrayDeDatos[2]);
+        dia = Integer.parseInt(arrayDeDatos[3]);
+        hora = Integer.parseInt(arrayDeDatos[4]);
+        minutos = Integer.parseInt(arrayDeDatos[5].substring(0,arrayDeDatos[5].length() -1 ));
+        
+        //posicion 3 del array con la url
+        url = arrayDeDatos[2];
+        
+        //posicion 4 del array con el codigo de error
+        codigoDeError = Integer.parseInt(arrayDeDatos[3]);
 
     }
 
